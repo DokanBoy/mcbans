@@ -1,0 +1,4 @@
+name: ${plugin.name}
+version: ${project.version}
+main: ${plugin.main-class.template}.SpigotMcBansPlugin
+api-version: 1.13
