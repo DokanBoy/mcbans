@@ -1,8 +1,8 @@
 package su.mcstudio.mcbans.service;
 
 import lombok.NonNull;
-import su.mcstudio.mcbans.model.punishment.Punishment;
-import su.mcstudio.mcbans.model.punishment.PunishmentType;
+import su.mcstudio.mcbans.model.violation.Violation;
+import su.mcstudio.mcbans.model.violation.ViolationType;
 import su.mcstudio.mcbans.model.User;
 
 import java.util.List;
@@ -16,8 +16,8 @@ public interface UserService {
 
     @NonNull User findOrCreate(@NonNull UUID uuid);
 
-    @NonNull List<Punishment> findAllPunishments();
+    @NonNull List<Violation> findAllPunishments();
 
-    @NonNull List<Punishment> findPunishmentByType(@NonNull PunishmentType type);
+    @NonNull List<Violation> findPunishmentByType(@NonNull ViolationType type);
 
 }

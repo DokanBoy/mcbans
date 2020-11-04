@@ -1,4 +1,4 @@
-package su.mcstudio.mcbans.model.punishment;
+package su.mcstudio.mcbans.model.violation;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
  * Date: 01.11.2020 18:33
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public enum PunishmentType {
+public enum ViolationType {
 
     KICK("kick"),
     BAN("ban"),
@@ -20,7 +20,7 @@ public enum PunishmentType {
     @Getter
     String name;
 
-    PunishmentType(@NonNull String name) {
+    ViolationType(@NonNull String name) {
         this.name = name;
     }
 

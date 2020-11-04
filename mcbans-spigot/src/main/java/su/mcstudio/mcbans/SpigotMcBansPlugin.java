@@ -5,6 +5,7 @@ import dev.simplix.core.minecraft.spigot.dynamiclisteners.DynamicListenersSimpli
 import dev.simplix.core.minecraft.spigot.quickstart.SimplixQuickStart;
 import dev.simplix.minecraft.spigot.dynamiccommands.DynamicCommandsSimplixModule;
 import org.bukkit.plugin.java.JavaPlugin;
+import su.mcstudio.mcbans.module.CommonServiceModule;
 
 /**
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
@@ -19,13 +20,13 @@ public final class SpigotMcBansPlugin extends JavaPlugin {
         }
         SimplixInstaller.instance()
                         .register(McBansApplication.class,
+                                new CommonServiceModule(),
                                 new DynamicListenersSimplixModule(this),
                                 new DynamicCommandsSimplixModule());
     }
 
     @Override
     public void onDisable() {
-        super.onDisable();
     }
 
 }
