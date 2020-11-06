@@ -4,15 +4,15 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>su.mcstudio</groupId>
-    <artifactId>mcbans-parent</artifactId>
+    <groupId>su.mcstudio.mcbans</groupId>
+    <artifactId>parent</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
     <modules>
-        <module>mcbans-bungee</module>
-        <module>mcbans-spigot</module>
-        <module>mcbans-common</module>
-        <module>mcbans-velocity</module>
+        <module>bungee</module>
+        <module>spigot</module>
+        <module>common</module>
+        <module>velocity</module>
     </modules>
 
     <developers>
@@ -68,11 +68,11 @@
 
     <repositories>
         <repository>
-            <id>simplixsoft-public</id>
+            <id>simplixsoft-repo</id>
             <url>https://repo.simplix.dev/repository/simplixsoft-public/</url>
         </repository>
         <repository>
-            <id>sonatype-public</id>
+            <id>sonatype-repo</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
     </repositories>

@@ -1,0 +1,15 @@
+# Доступно MySQL.
+# В будущем будет доступно H2 и PostgreSQL
+storage-method: mysql
+
+# address - адрес БД
+# port - порт БД
+# database - название БД, где будет храниться информация о наказаниях
+# username - имя пользователя БД
+# password - пароль пользователя БД
+data:
+  address: 127.0.0.1
+  port: 3306
+  database: mcbans
+  username: root
+  password: 'ILoveMC'
