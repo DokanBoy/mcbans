@@ -12,6 +12,7 @@ import su.mcstudio.mcbans.repository.ViolationRepository;
 import su.mcstudio.mcbans.service.ViolationService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -96,25 +97,25 @@ public class ViolationServiceImpl implements ViolationService {
     }
 
     @Override
-    public @Nullable Violation isMuted(@NonNull UUID playerId) {
-        return violationRepository.findByPlayerViolation(playerId)
-                                  .stream()
-                                  .filter(vl -> vl.getType() == ViolationType.MUTE)
-                                  .filter(vl -> vl.isCancelled() ||
-                                          vl.getViolationTime() + vl.getDuration() < System.currentTimeMillis())
-                                  .findFirst()
-                                  .get();
+    public Optional<Violation> activeMute(@NonNull UUID playerId) {
+        List<Violation> foundViolations = violationRepository.findByPlayerViolation(playerId);
+        if (foundViolations == null || foundViolations.isEmpty()) return Optional.empty();
+
+        return foundViolations.stream()
+                              .filter(vl -> vl.getType() == ViolationType.MUTE)
+                              .filter(vl -> vl.isCancelled() || vl.getViolationTime() + vl.getDuration() < System.currentTimeMillis())
+                              .findFirst();
     }
 
     @Override
-    public @Nullable Violation isBanned(@NonNull UUID playerId) {
-        return violationRepository.findByPlayerViolation(playerId)
-                                  .stream()
-                                  .filter(vl -> vl.getType() == ViolationType.BAN)
-                                  .filter(vl -> vl.isCancelled() ||
-                                          vl.getViolationTime() + vl.getDuration() < System.currentTimeMillis())
-                                  .findFirst()
-                                  .get();
+    public Optional<Violation> activeBan(@NonNull UUID playerId) {
+        List<Violation> foundViolations = violationRepository.findByPlayerViolation(playerId);
+        if (foundViolations == null || foundViolations.isEmpty()) return Optional.empty();
+
+        return foundViolations.stream()
+                              .filter(vl -> vl.getType() == ViolationType.BAN)
+                              .filter(vl -> vl.isCancelled() || vl.getViolationTime() + vl.getDuration() < System.currentTimeMillis())
+                              .findFirst();
     }
 
 }

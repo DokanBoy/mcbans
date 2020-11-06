@@ -5,6 +5,7 @@ import org.jetbrains.annotations.Nullable;
 import su.mcstudio.mcbans.model.Violation;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -23,8 +24,8 @@ public interface ViolationService {
 
     @NonNull List<Violation> unmutePlayer(@NonNull UUID playerId, @Nullable UUID executorId, @NonNull String reason);
 
-    @Nullable Violation isMuted(@NonNull UUID playerId);
+    Optional<Violation> activeMute(@NonNull UUID playerId);
 
-    @Nullable Violation isBanned(@NonNull UUID playerId);
+    Optional<Violation> activeBan(@NonNull UUID playerId);
 
 }

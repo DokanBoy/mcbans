@@ -34,4 +34,5 @@ public class CommonRepositoryModule extends AbstractSimplixModule {
 
         binder.bind(ViolationRepository.class).to(ViolationRepositoryImpl.class);
     }
+
 }

@@ -15,4 +15,5 @@ public class CommonServiceModule extends AbstractSimplixModule {
     public void configure(Binder binder) {
         binder.bind(ViolationService.class).to(ViolationServiceImpl.class);
     }
+
 }

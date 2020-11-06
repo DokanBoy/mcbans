@@ -43,11 +43,8 @@ public class JoinListener implements Listener<JoinEvent> {
     @SneakyThrows
     public void handleEvent(@NonNull JoinEvent event) {
         Violation violation = violationService.mutePlayer(event.targetUUID(), null, "§aTEST", Duration.ofMinutes(5).toMillis());
-        log.info("User ID: " + event.targetUUID());
-        log.info("User IP: " + event.targetAddress());
         log.info(violation.toString());
-
-        if (violationService.isBanned(event.targetUUID()) != null)
+        if (violationService.activeBan(event.targetUUID()).isPresent())
             event.canceled(true);
     }
 
