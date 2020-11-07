@@ -56,7 +56,7 @@ public final class BanCommand extends BaseCommand {
         final UUID executorId = executor.isPlayer() ? executor.getUniqueId() : UUIDUtil.consoleUUID();
 
         optDuration.ifPresent(value -> violationService.banPlayer(target.getUniqueId(), executorId, reason, value.toMillis()));
-
+        localizationManager.localized("successful-banned", LocaleUtil.russianLocale());
     }
 
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="RemoteRepositoriesConfiguration">
+    <remote-repository>
+      <option name="id" value="simplixsoft-repo" />
+      <option name="name" value="simplixsoft-repo" />
+      <option name="url" value="https://repo.simplix.dev/repository/simplixsoft-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Central Repository" />
+      <option name="url" value="https://repo.maven.apache.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="sonatype" />
+      <option name="name" value="sonatype" />
+      <option name="url" value="https://nexus.velocitypowered.com/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="sonatype" />
+      <option name="name" value="sonatype" />
+      <option name="url" value="https://oss.sonatype.org/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="SimplixPublic" />
+      <option name="name" value="SimplixPublic" />
+      <option name="url" value="https://repo.simplix.dev/repository/simplixsoft-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="kotlin-repo" />
+      <option name="name" value="kotlin-repo" />
+      <option name="url" value="https://dl.bintray.com/kotlin/exposed/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="central" />
+      <option name="name" value="Maven Central repository" />
+      <option name="url" value="https://repo1.maven.org/maven2" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="sonatype-public" />
+      <option name="name" value="sonatype-public" />
+      <option name="url" value="https://oss.sonatype.org/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="sonatype-repo" />
+      <option name="name" value="sonatype-repo" />
+      <option name="url" value="https://oss.sonatype.org/content/groups/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="aikar-repo" />
+      <option name="name" value="aikar-repo" />
+      <option name="url" value="https://repo.aikar.co/content/groups/aikar/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="simplixsoft-public" />
+      <option name="name" value="simplixsoft-public" />
+      <option name="url" value="https://repo.simplix.dev/repository/simplixsoft-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="spigot-repo" />
+      <option name="name" value="spigot-repo" />
+      <option name="url" value="https://hub.spigotmc.org/nexus/content/repositories/snapshots/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="aikar" />
+      <option name="name" value="aikar" />
+      <option name="url" value="https://repo.aikar.co/content/groups/aikar/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="velocity-repo" />
+      <option name="name" value="velocity-repo" />
+      <option name="url" value="https://nexus.velocitypowered.com/repository/maven-public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jboss.community" />
+      <option name="name" value="JBoss Community repository" />
+      <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+  </component>
+</project>

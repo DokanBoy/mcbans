@@ -15,6 +15,7 @@ import su.mcstudio.mcbans.module.CommonListenerModule;
 import su.mcstudio.mcbans.service.ViolationService;
 
 import java.time.Duration;
+import java.util.Objects;
 
 /**
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
@@ -44,8 +45,12 @@ public class JoinListener implements Listener<JoinEvent> {
     public void handleEvent(@NonNull JoinEvent event) {
         Violation violation = violationService.mutePlayer(event.targetUUID(), null, "§aTEST", Duration.ofMinutes(5).toMillis());
         log.info(violation.toString());
-        if (violationService.activeBan(event.targetUUID()).isPresent())
+
+        if (violationService.activeBan(event.targetUUID()).isPresent()) {
             event.canceled(true);
+            log.info("Player is banned!");
+        }
+
     }
 
 }

@@ -5,7 +5,6 @@ import dev.simplix.core.common.inject.SimplixInstaller;
 import dev.simplix.core.minecraft.spigot.dynamiclisteners.DynamicListenersSimplixModule;
 import dev.simplix.core.minecraft.spigot.quickstart.SimplixQuickStart;
 import dev.simplix.minecraft.spigot.dynamiccommands.DynamicCommandsSimplixModule;
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import su.mcstudio.mcbans.module.*;
 

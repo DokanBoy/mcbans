@@ -38,7 +38,8 @@ public class ViolationRepositoryImpl implements ViolationRepository {
                                                                                    .valueOf(rs.getString("violation_type").toUpperCase()))
                                                                            .player(UUID.fromString(rs.getString("player_uuid")))
                                                                            .executor(UUID.fromString(rs.getString("executor_uuid")))
-                                                                           .deExecutor(rs.getString("deexecutor_uuid") != null ? UUID.fromString(rs.getString("deexecutor_uuid")) : null)
+                                                                           .deExecutor(rs.getString("deexecutor_uuid") != null ? UUID
+                                                                                   .fromString(rs.getString("deexecutor_uuid")) : null)
                                                                            .reason(rs.getString("violation_reason"))
                                                                            .violationTime(rs.getLong("violation_time"))
                                                                            .duration(rs.getLong("violation_duration"))

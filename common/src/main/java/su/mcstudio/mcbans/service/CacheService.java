@@ -6,6 +6,4 @@ package su.mcstudio.mcbans.service;
  */
 public interface CacheService {
 
-    //CachedPlayer isPlayerCached();
-
 }
