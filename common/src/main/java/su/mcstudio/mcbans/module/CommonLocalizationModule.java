@@ -9,24 +9,28 @@ import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
 
 import java.io.File;
+import java.util.Locale;
 
 /**
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
  * Date: 06.11.2020 23:41
  */
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class LocalizationModule extends AbstractSimplixModule {
+public class CommonLocalizationModule extends AbstractSimplixModule {
 
     File file;
 
-    public LocalizationModule(File file) {
+    public CommonLocalizationModule(File file) {
         this.file = file;
     }
 
     @Provides
     @Private
     public LocalizationManager localizationManager(LocalizationManagerFactory factory) {
-        return factory.create(new File(file, "lang"));
+        LocalizationManager localizationManager = factory.create(new File(file, "lang"));
+        localizationManager.defaultLocale(new Locale("ru"));
+
+        return localizationManager;
     }
 
 }

@@ -19,47 +19,39 @@ import java.util.UUID;
 public class Violation {
 
     /**
+     * Игрок которого наказали
+     */
+    @NonNull UUID player;
+    /**
+     * Тот, кто наказал
+     */
+    @NonNull UUID executor;
+    /**
+     * Тот, кто отменил наказание
+     */
+    @Nullable UUID deExecutor;
+    /**
+     * Причина наказания
+     */
+    @NonNull String reason;
+    /**
+     * Вид наказания
+     */
+    @NonNull ViolationType type;
+    /**
+     * Время, когда наказали игрока
+     */
+    long violationTime;
+    /**
+     * Срок наказания в мс
+     */
+    long duration;
+    /**
      * ID наказания
      */
     @Setter
     @NonFinal
     @NonNull UUID violationId;
-
-    /**
-     * Игрок которого наказали
-     */
-    @NonNull UUID player;
-
-    /**
-     * Тот, кто наказал
-     */
-    @Nullable UUID executor;
-
-    /**
-     * Тот, кто отменил наказание
-     */
-    @Nullable UUID deExecutor;
-
-    /**
-     * Причина наказания
-     */
-    @NonNull String reason;
-
-    /**
-     * Вид наказания
-     */
-    @NonNull ViolationType type;
-
-    /**
-     * Время, когда наказали игрока
-     */
-    long violationTime;
-
-    /**
-     * Срок наказания в мс
-     */
-    long duration;
-
     /**
      * Отменено ли наказания
      */

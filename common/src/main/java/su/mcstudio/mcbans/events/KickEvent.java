@@ -1,4 +1,4 @@
-package su.mcstudio.mcbans.event;
+package su.mcstudio.mcbans.events;
 
 import dev.simplix.core.common.event.AbstractEvent;
 import lombok.AccessLevel;
@@ -10,11 +10,11 @@ import java.util.UUID;
 
 /**
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
- * Date: 06.11.2020 23:18
+ * Date: 06.11.2020 23:17
  */
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class MuteEvent extends AbstractEvent {
+public class KickEvent extends AbstractEvent {
 
     @Getter
     UUID playerId;
@@ -24,8 +24,5 @@ public class MuteEvent extends AbstractEvent {
 
     @Getter
     long violationTime;
-
-    @Getter
-    long duration;
 
 }

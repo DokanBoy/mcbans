@@ -13,6 +13,8 @@ public class CommonServiceModule extends AbstractSimplixModule {
 
     @Override
     public void configure(Binder binder) {
+        super.configure(binder);
+
         binder.bind(ViolationService.class).to(ViolationServiceImpl.class);
     }
 

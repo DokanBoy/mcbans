@@ -1,5 +1,7 @@
 package su.mcstudio.mcbans.module;
 
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.inject.Binder;
 import de.leonhard.storage.Yaml;
 import dev.simplix.core.common.aop.AbstractSimplixModule;
@@ -9,6 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import su.mcstudio.mcbans.repository.ViolationRepository;
 import su.mcstudio.mcbans.repository.impl.ViolationRepositoryImpl;
+import su.mcstudio.mcbans.util.query.QueryFactory;
+
+import java.util.concurrent.Executors;
 
 /**
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
@@ -20,17 +25,28 @@ public class CommonRepositoryModule extends AbstractSimplixModule {
 
     Yaml yaml;
 
+    private static ListeningExecutorService getListeningExecutorService() {
+        return MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
+    }
+
     @Override
     public void configure(Binder binder) {
         super.configure(binder);
 
-        binder.bind(SqlDatabaseConnection.class).toInstance(SqlDatabaseConnection.hikari(
+        final SqlDatabaseConnection databaseConnection = SqlDatabaseConnection.hikari(
                 yaml.getString("data.address"),
                 yaml.getString("data.username"),
                 yaml.getString("data.password"),
                 yaml.getString("data.port"),
                 yaml.getString("data.database")
-        ));
+        );
+        binder.bind(SqlDatabaseConnection.class).toInstance(databaseConnection);
+
+        final QueryFactory queryFactory = new QueryFactory(
+                CommonRepositoryModule::getListeningExecutorService,
+                databaseConnection.getDataSource()
+        );
+        binder.bind(QueryFactory.class).toInstance(queryFactory);
 
         binder.bind(ViolationRepository.class).to(ViolationRepositoryImpl.class);
     }

@@ -2,6 +2,8 @@ package su.mcstudio.mcbans.listener;
 
 import com.google.inject.Inject;
 import dev.simplix.core.common.aop.Component;
+import dev.simplix.core.common.aop.Private;
+import dev.simplix.core.common.i18n.LocalizationManager;
 import dev.simplix.core.common.listener.Listener;
 import dev.simplix.core.common.listener.Listeners;
 import dev.simplix.core.minecraft.api.events.ChatEvent;
@@ -22,10 +24,12 @@ import su.mcstudio.mcbans.service.ViolationService;
 public class ChatListener implements Listener<ChatEvent> {
 
     ViolationService violationService;
+    LocalizationManager localizationManager;
 
     @Inject
-    public ChatListener(ViolationService violationService) {
+    public ChatListener(ViolationService violationService, @Private LocalizationManager localizationManager) {
         this.violationService = violationService;
+        this.localizationManager = localizationManager;
 
         Listeners.register(this);
     }

@@ -77,8 +77,8 @@ public class ViolationServiceImpl implements ViolationService {
     public @NonNull List<Violation> unbanPlayer(@NonNull UUID playerId, @Nullable UUID executorId, @NonNull String reason) {
         return violationRepository.findByPlayerViolation(playerId).stream()
                                   .filter(vl -> vl.getType() == ViolationType.BAN)
-                                  .filter(vl -> vl.isCancelled() ||
-                                          vl.getViolationTime() + vl.getDuration() < System.currentTimeMillis())
+                                  .filter(Violation::isCancelled)
+                                  .filter(vl -> (vl.getViolationTime() + vl.getDuration()) < System.currentTimeMillis())
                                   .peek(violation -> violation.setCancelled(true))
                                   .peek(violationRepository::updateViolation)
                                   .collect(Collectors.toList());
@@ -89,8 +89,8 @@ public class ViolationServiceImpl implements ViolationService {
         return violationRepository.findByPlayerViolation(playerId)
                                   .stream()
                                   .filter(vl -> vl.getType() == ViolationType.MUTE)
-                                  .filter(vl -> vl.isCancelled() ||
-                                          vl.getViolationTime() + vl.getDuration() < System.currentTimeMillis())
+                                  .filter(Violation::isCancelled)
+                                  .filter(vl -> (vl.getViolationTime() + vl.getDuration()) < System.currentTimeMillis())
                                   .peek(vl -> vl.setCancelled(true))
                                   .peek(violationRepository::updateViolation)
                                   .collect(Collectors.toList());
@@ -103,7 +103,8 @@ public class ViolationServiceImpl implements ViolationService {
 
         return foundViolations.stream()
                               .filter(vl -> vl.getType() == ViolationType.MUTE)
-                              .filter(vl -> vl.isCancelled() || vl.getViolationTime() + vl.getDuration() < System.currentTimeMillis())
+                              .filter(Violation::isCancelled)
+                              .filter(vl -> (vl.getViolationTime() + vl.getDuration()) < System.currentTimeMillis())
                               .findFirst();
     }
 
@@ -114,7 +115,8 @@ public class ViolationServiceImpl implements ViolationService {
 
         return foundViolations.stream()
                               .filter(vl -> vl.getType() == ViolationType.BAN)
-                              .filter(vl -> vl.isCancelled() || vl.getViolationTime() + vl.getDuration() < System.currentTimeMillis())
+                              .filter(Violation::isCancelled)
+                              .filter(vl -> (vl.getViolationTime() + vl.getDuration()) < System.currentTimeMillis())
                               .findFirst();
     }
 

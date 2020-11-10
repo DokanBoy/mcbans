@@ -2,6 +2,8 @@ package su.mcstudio.mcbans.listener;
 
 import com.google.inject.Inject;
 import dev.simplix.core.common.aop.Component;
+import dev.simplix.core.common.aop.Private;
+import dev.simplix.core.common.i18n.LocalizationManager;
 import dev.simplix.core.common.listener.Listener;
 import dev.simplix.core.common.listener.Listeners;
 import dev.simplix.core.minecraft.api.events.JoinEvent;
@@ -13,9 +15,10 @@ import lombok.extern.slf4j.Slf4j;
 import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.module.CommonListenerModule;
 import su.mcstudio.mcbans.service.ViolationService;
+import su.mcstudio.mcbans.util.LocalizationUtil;
 
 import java.time.Duration;
-import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
@@ -27,10 +30,12 @@ import java.util.Objects;
 public class JoinListener implements Listener<JoinEvent> {
 
     ViolationService violationService;
+    LocalizationManager localizationManager;
 
     @Inject
-    public JoinListener(ViolationService violationService) {
+    public JoinListener(ViolationService violationService, @Private LocalizationManager localizationManager) {
         this.violationService = violationService;
+        this.localizationManager = localizationManager;
 
         Listeners.register(this);
     }
@@ -43,12 +48,17 @@ public class JoinListener implements Listener<JoinEvent> {
     @Override
     @SneakyThrows
     public void handleEvent(@NonNull JoinEvent event) {
-        Violation violation = violationService.mutePlayer(event.targetUUID(), null, "§aTEST", Duration.ofMinutes(5).toMillis());
-        log.info(violation.toString());
+        Violation muteVl = violationService.mutePlayer(event.targetUUID(), event.targetUUID(), "§cTEST", Duration.ofMinutes(5).toMillis());
 
-        if (violationService.activeBan(event.targetUUID()).isPresent()) {
+        Optional<Violation> activeBan = violationService.activeBan(event.targetUUID());
+        if (activeBan.isPresent()) {
+            String formattedBanMessage = LocalizationUtil.getFormattedBanMessage(
+                    localizationManager.localized("ban-message"),
+                    activeBan.get().getReason(),
+                    activeBan.get().getExecutor(),
+                    activeBan.get().getViolationTime() + activeBan.get().getDuration());
+            event.cancelReason(formattedBanMessage);
             event.canceled(true);
-            log.info("Player is banned!");
         }
 
     }

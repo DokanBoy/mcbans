@@ -1,6 +1,6 @@
 package su.mcstudio.mcbans;
 
-import de.leonhard.storage.LightningBuilder;
+import de.leonhard.storage.Yaml;
 import dev.simplix.core.common.inject.SimplixInstaller;
 import dev.simplix.core.minecraft.spigot.dynamiclisteners.DynamicListenersSimplixModule;
 import dev.simplix.core.minecraft.spigot.quickstart.SimplixQuickStart;
@@ -25,9 +25,9 @@ public final class SpigotMcBansPlugin extends JavaPlugin {
         SimplixInstaller.instance()
                         .register(McBansApplication.class,
                                 new CommonListenerModule(),
-                                new LocalizationModule(getDataFolder()),
+                                new CommonLocalizationModule(getDataFolder()),
                                 new CommonServiceModule(),
-                                new CommonRepositoryModule(LightningBuilder.fromFile(new File(getDataFolder(), "config.yml")).createYaml()),
+                                new CommonRepositoryModule(new Yaml(new File(getDataFolder(), "config.yml"))),
                                 new DynamicListenersSimplixModule(this),
                                 new ACFModule(this),
                                 new DynamicCommandsSimplixModule());
@@ -35,6 +35,7 @@ public final class SpigotMcBansPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
     }
 
 }

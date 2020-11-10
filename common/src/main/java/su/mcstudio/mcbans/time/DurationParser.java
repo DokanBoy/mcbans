@@ -15,9 +15,6 @@ import java.util.stream.Collectors;
  * Parses durations from a string format
  */
 public final class DurationParser {
-    private DurationParser() {
-    }
-
     private static final Map<ChronoUnit, String> UNITS_PATTERNS = ImmutableMap.<ChronoUnit, String>builder()
             .put(ChronoUnit.YEARS, "y(?:ear)?s?")
             .put(ChronoUnit.MONTHS, "mo(?:nth)?s?")
@@ -27,14 +24,14 @@ public final class DurationParser {
             .put(ChronoUnit.MINUTES, "m(?:inute|in)?s?")
             .put(ChronoUnit.SECONDS, "(?:s(?:econd|ec)?s?)?")
             .build();
-
     private static final ChronoUnit[] UNITS = UNITS_PATTERNS.keySet().toArray(new ChronoUnit[0]);
-
     private static final String PATTERN_STRING = UNITS_PATTERNS.values().stream()
                                                                .map(pattern -> "(?:(\\d+)\\s*" + pattern + "[,\\s]*)?")
                                                                .collect(Collectors.joining());
-
     private static final Pattern PATTERN = Pattern.compile(PATTERN_STRING, Pattern.CASE_INSENSITIVE);
+
+    private DurationParser() {
+    }
 
     /**
      * Parses a {@link Duration} from a string.

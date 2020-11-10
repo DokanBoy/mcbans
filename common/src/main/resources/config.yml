@@ -1,7 +1,3 @@
-# Доступно MySQL.
-# В будущем будет доступно H2 и PostgreSQL
-storage-method: mysql
-
 # address - адрес БД
 # port - порт БД
 # database - название БД, где будет храниться информация о наказаниях

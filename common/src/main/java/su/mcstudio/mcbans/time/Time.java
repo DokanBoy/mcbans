@@ -10,6 +10,10 @@ import java.util.concurrent.TimeUnit;
  */
 public final class Time {
 
+    private Time() {
+        throw new UnsupportedOperationException("This class cannot be instantiated");
+    }
+
     /**
      * Gets the current unix time in milliseconds.
      *
@@ -75,9 +79,5 @@ public final class Time {
                 throw new AssertionError("unknown time unit: " + unit);
 
         }
-    }
-
-    private Time() {
-        throw new UnsupportedOperationException("This class cannot be instantiated");
     }
 }
