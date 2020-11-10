@@ -7,15 +7,14 @@ import dev.simplix.core.common.i18n.LocalizationManager;
 import dev.simplix.core.common.listener.Listener;
 import dev.simplix.core.common.listener.Listeners;
 import dev.simplix.core.minecraft.api.events.JoinEvent;
-import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.SneakyThrows;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.module.CommonListenerModule;
 import su.mcstudio.mcbans.service.ViolationService;
 import su.mcstudio.mcbans.util.LocalizationUtil;
+import su.mcstudio.mcbans.util.UUIDUtil;
 
 import java.time.Duration;
 import java.util.Optional;
@@ -26,11 +25,10 @@ import java.util.Optional;
  */
 @Slf4j
 @Component(value = CommonListenerModule.class)
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class JoinListener implements Listener<JoinEvent> {
 
-    ViolationService violationService;
-    LocalizationManager localizationManager;
+    private final ViolationService violationService;
+    private final LocalizationManager localizationManager;
 
     @Inject
     public JoinListener(ViolationService violationService, @Private LocalizationManager localizationManager) {
@@ -48,7 +46,7 @@ public class JoinListener implements Listener<JoinEvent> {
     @Override
     @SneakyThrows
     public void handleEvent(@NonNull JoinEvent event) {
-        Violation muteVl = violationService.mutePlayer(event.targetUUID(), event.targetUUID(), "§cTEST", Duration.ofMinutes(5).toMillis());
+        violationService.mutePlayer(event.targetUUID(), UUIDUtil.consoleUUID(), "", Duration.ofMinutes(5).toMillis());
 
         Optional<Violation> activeBan = violationService.activeBan(event.targetUUID());
         if (activeBan.isPresent()) {

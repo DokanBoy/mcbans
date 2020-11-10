@@ -2,9 +2,8 @@ package su.mcstudio.mcbans.service.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.model.ViolationType;
@@ -20,65 +19,65 @@ import java.util.stream.Collectors;
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
  * Date: 03.11.2020 16:12
  */
+@Slf4j
 @Singleton
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ViolationServiceImpl implements ViolationService {
 
-    ViolationRepository violationRepository;
+    private final ViolationRepository violationRepository;
 
     @Inject
     public ViolationServiceImpl(@NonNull ViolationRepository repository) {
         this.violationRepository = repository;
     }
 
-
     @Override
     public Violation kickPlayer(@NonNull UUID playerId, @Nullable UUID executorId, @NonNull String reason) {
-        Violation violation = Violation.builder()
-                                       .violationId(UUID.randomUUID())
-                                       .player(playerId)
-                                       .executor(executorId)
-                                       .type(ViolationType.KICK)
-                                       .reason(reason)
-                                       .violationTime(System.currentTimeMillis())
-                                       .build();
+        final Violation violation = Violation.builder()
+                                             .id(UUID.randomUUID())
+                                             .player(playerId)
+                                             .executor(executorId)
+                                             .type(ViolationType.KICK)
+                                             .reason(reason)
+                                             .violationTime(System.currentTimeMillis())
+                                             .build();
         return violationRepository.saveViolation(violation);
     }
 
     @Override
     public Violation banPlayer(@NonNull UUID playerId, @Nullable UUID executorId, @NonNull String reason, long duration) {
-        Violation violation = Violation.builder()
-                                       .violationId(UUID.randomUUID())
-                                       .player(playerId)
-                                       .executor(executorId)
-                                       .type(ViolationType.BAN)
-                                       .reason(reason)
-                                       .violationTime(System.currentTimeMillis())
-                                       .duration(duration)
-                                       .build();
+        final Violation violation = Violation.builder()
+                                             .id(UUID.randomUUID())
+                                             .player(playerId)
+                                             .executor(executorId)
+                                             .type(ViolationType.BAN)
+                                             .reason(reason)
+                                             .violationTime(System.currentTimeMillis())
+                                             .duration(duration)
+                                             .build();
         return violationRepository.saveViolation(violation);
     }
 
     @Override
     public Violation mutePlayer(@NonNull UUID playerId, @Nullable UUID executorId, @NonNull String reason, long duration) {
-        Violation violation = Violation.builder()
-                                       .violationId(UUID.randomUUID())
-                                       .player(playerId)
-                                       .executor(executorId)
-                                       .type(ViolationType.MUTE)
-                                       .reason(reason)
-                                       .violationTime(System.currentTimeMillis())
-                                       .duration(duration)
-                                       .build();
+        final Violation violation = Violation.builder()
+                                             .id(UUID.randomUUID())
+                                             .player(playerId)
+                                             .executor(executorId)
+                                             .type(ViolationType.MUTE)
+                                             .reason(reason)
+                                             .violationTime(System.currentTimeMillis())
+                                             .duration(duration)
+                                             .build();
         return violationRepository.saveViolation(violation);
     }
 
     @Override
     public @NonNull List<Violation> unbanPlayer(@NonNull UUID playerId, @Nullable UUID executorId, @NonNull String reason) {
-        return violationRepository.findByPlayerViolation(playerId).stream()
+        return violationRepository.findByPlayerViolation(playerId)
+                                  .stream()
                                   .filter(vl -> vl.getType() == ViolationType.BAN)
                                   .filter(Violation::isCancelled)
-                                  .filter(vl -> (vl.getViolationTime() + vl.getDuration()) < System.currentTimeMillis())
+                                  .filter(vl -> (vl.getViolationTime() + vl.getDuration()) > System.currentTimeMillis())
                                   .peek(violation -> violation.setCancelled(true))
                                   .peek(violationRepository::updateViolation)
                                   .collect(Collectors.toList());
@@ -90,33 +89,34 @@ public class ViolationServiceImpl implements ViolationService {
                                   .stream()
                                   .filter(vl -> vl.getType() == ViolationType.MUTE)
                                   .filter(Violation::isCancelled)
-                                  .filter(vl -> (vl.getViolationTime() + vl.getDuration()) < System.currentTimeMillis())
+                                  .filter(vl -> (vl.getViolationTime() + vl.getDuration()) > System.currentTimeMillis())
                                   .peek(vl -> vl.setCancelled(true))
                                   .peek(violationRepository::updateViolation)
                                   .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Violation> activeMute(@NonNull UUID playerId) {
-        List<Violation> foundViolations = violationRepository.findByPlayerViolation(playerId);
-        if (foundViolations == null || foundViolations.isEmpty()) return Optional.empty();
+    public @NonNull Optional<Violation> activeMute(@NonNull UUID playerId) {
+        final List<Violation> foundViolations = violationRepository.findByPlayerViolation(playerId);
+        if (foundViolations.isEmpty()) return Optional.empty();
 
         return foundViolations.stream()
                               .filter(vl -> vl.getType() == ViolationType.MUTE)
-                              .filter(Violation::isCancelled)
-                              .filter(vl -> (vl.getViolationTime() + vl.getDuration()) < System.currentTimeMillis())
+                              .filter(vl -> !vl.isCancelled())
+                              .filter(vl -> (vl.getViolationTime() + vl.getDuration()) > System.currentTimeMillis())
+                              .peek(violation -> log.info(violation.toString()))
                               .findFirst();
     }
 
     @Override
-    public Optional<Violation> activeBan(@NonNull UUID playerId) {
-        List<Violation> foundViolations = violationRepository.findByPlayerViolation(playerId);
-        if (foundViolations == null || foundViolations.isEmpty()) return Optional.empty();
+    public @NonNull Optional<Violation> activeBan(@NonNull UUID playerId) {
+        final List<Violation> foundViolations = violationRepository.findByPlayerViolation(playerId);
+        if (foundViolations.isEmpty()) return Optional.empty();
 
         return foundViolations.stream()
                               .filter(vl -> vl.getType() == ViolationType.BAN)
-                              .filter(Violation::isCancelled)
-                              .filter(vl -> (vl.getViolationTime() + vl.getDuration()) < System.currentTimeMillis())
+                              .filter(vl -> !vl.isCancelled())
+                              .filter(vl -> (vl.getViolationTime() + vl.getDuration()) > System.currentTimeMillis())
                               .findFirst();
     }
 

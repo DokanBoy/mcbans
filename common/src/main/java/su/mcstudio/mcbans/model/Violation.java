@@ -1,9 +1,8 @@
 package su.mcstudio.mcbans.model;
 
 import lombok.*;
-import lombok.experimental.FieldDefaults;
-import lombok.experimental.NonFinal;
 import org.jetbrains.annotations.Nullable;
+import su.mcstudio.mcbans.util.UUIDUtil;
 
 import java.util.UUID;
 
@@ -15,58 +14,69 @@ import java.util.UUID;
 @Builder
 @ToString
 @EqualsAndHashCode
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class Violation {
 
-    /**
-     * Игрок которого наказали
-     */
-    @NonNull UUID player;
-    /**
-     * Тот, кто наказал
-     */
-    @NonNull UUID executor;
-    /**
-     * Тот, кто отменил наказание
-     */
-    @Nullable UUID deExecutor;
-    /**
-     * Причина наказания
-     */
-    @NonNull String reason;
-    /**
-     * Вид наказания
-     */
-    @NonNull ViolationType type;
-    /**
-     * Время, когда наказали игрока
-     */
-    long violationTime;
-    /**
-     * Срок наказания в мс
-     */
-    long duration;
     /**
      * ID наказания
      */
     @Setter
-    @NonFinal
-    @NonNull UUID violationId;
+    @NonNull
+    private UUID id;
+
+    /**
+     * Игрок которого наказали
+     */
+    @NonNull
+    private final UUID player;
+
+    /**
+     * Тот, кто наказал
+     */
+    @NonNull
+    private final UUID executor;
+
+    /**
+     * Тот, кто отменил наказание
+     */
+    @Nullable
+    private final UUID deExecutor;
+
+    /**
+     * Причина наказания
+     */
+    @NonNull
+    private final String reason;
+
+    /**
+     * Вид наказания
+     */
+    @NonNull
+    private final ViolationType type;
+
+    /**
+     * Время, когда наказали игрока
+     */
+    private final long violationTime;
+
+    /**
+     * Срок наказания в мс
+     */
+    private final long duration;
+
     /**
      * Отменено ли наказания
      */
     @Setter
-    @NonFinal
-    boolean cancelled;
+    private boolean cancelled;
 
     public Violation(@NonNull UUID violationId, @NonNull UUID playerId,
                      @Nullable UUID executorId, @Nullable UUID deExecutorId,
                      @NonNull String reason, @NonNull ViolationType type,
                      long violationTime, long duration,
                      boolean cancelled) {
-        this.violationId = violationId == null ? UUID.randomUUID() : violationId;
+        this.id = violationId == null ? UUID.randomUUID() : violationId;
         this.player = playerId;
-        this.executor = executorId;
+        this.executor = executorId == null ? UUIDUtil.consoleUUID() : executorId;
         this.deExecutor = deExecutorId;
         this.reason = reason;
         this.type = type;

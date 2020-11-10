@@ -6,9 +6,7 @@ import com.google.inject.Binder;
 import de.leonhard.storage.Yaml;
 import dev.simplix.core.common.aop.AbstractSimplixModule;
 import dev.simplix.core.database.sql.SqlDatabaseConnection;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.experimental.FieldDefaults;
 import su.mcstudio.mcbans.repository.ViolationRepository;
 import su.mcstudio.mcbans.repository.impl.ViolationRepositoryImpl;
 import su.mcstudio.mcbans.util.query.QueryFactory;
@@ -20,10 +18,9 @@ import java.util.concurrent.Executors;
  * Date: 03.11.2020 17:52
  */
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CommonRepositoryModule extends AbstractSimplixModule {
 
-    Yaml yaml;
+    private final Yaml yaml;
 
     private static ListeningExecutorService getListeningExecutorService() {
         return MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));

@@ -7,12 +7,13 @@ import dev.simplix.core.common.i18n.LocalizationManager;
 import dev.simplix.core.common.listener.Listener;
 import dev.simplix.core.common.listener.Listeners;
 import dev.simplix.core.minecraft.api.events.ChatEvent;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.module.CommonListenerModule;
 import su.mcstudio.mcbans.service.ViolationService;
+
+import java.util.Optional;
 
 /**
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
@@ -20,11 +21,10 @@ import su.mcstudio.mcbans.service.ViolationService;
  */
 @Slf4j
 @Component(value = CommonListenerModule.class)
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ChatListener implements Listener<ChatEvent> {
 
-    ViolationService violationService;
-    LocalizationManager localizationManager;
+    private final ViolationService violationService;
+    private final LocalizationManager localizationManager;
 
     @Inject
     public ChatListener(ViolationService violationService, @Private LocalizationManager localizationManager) {
@@ -41,7 +41,11 @@ public class ChatListener implements Listener<ChatEvent> {
 
     @Override
     public void handleEvent(@NonNull ChatEvent event) {
-        if (violationService.activeMute(event.targetUUID()).isPresent() && !event.message().contains("/"))
+        Optional<Violation> activeMuteMute = violationService.activeMute(event.targetUUID());
+
+        if (activeMuteMute.isPresent() && !event.message().contains("/")) {
+            log.info(activeMuteMute.get().toString());
             event.canceled(true);
+        }
     }
 }

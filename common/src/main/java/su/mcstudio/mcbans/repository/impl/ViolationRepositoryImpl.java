@@ -4,9 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import dev.simplix.core.database.sql.function.ResultSetTransformer;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
 import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.model.ViolationType;
 import su.mcstudio.mcbans.repository.ViolationRepository;
@@ -21,25 +19,22 @@ import java.util.UUID;
  * Date: 03.11.2020 17:46
  */
 @Singleton
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ViolationRepositoryImpl implements ViolationRepository {
 
-    QueryFactory queryFactory;
+    private final QueryFactory queryFactory;
 
-    String FIND_BY_PLAYER_UUID_QUERY = "SELECT * FROM mcbans_actions WHERE player_uuid=?";
-    String FIND_BY_EXECUTOR_UUID_QUERY = "SELECT * FROM mcbans_actions WHERE executor_uuid=?";
-    String FIND_BY_VIOLATION_UUID_QUERY = "SELECT * FROM mcbans_actions WHERE violation_uuid=?";
-    String INSERT_VIOLATION_QUERY = "INSERT INTO mcbans_actions (violation_uuid, player_uuid, executor_uuid, violation_reason, violation_type, violation_time, violation_duration) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    String UPDATE_VIOLATION_QUERY = "UPDATE mcbans_actions SET deexecutor_uuid=?, violation_reason=?, violation_duration=?, violation_cancelled=? WHERE violation_uuid=?";
+    private static final String FIND_BY_PLAYER_UUID_QUERY = "SELECT * FROM mcbans_actions WHERE player_uuid=?";
+    private static final String FIND_BY_EXECUTOR_UUID_QUERY = "SELECT * FROM mcbans_actions WHERE executor_uuid=?";
+    private static final String FIND_BY_VIOLATION_UUID_QUERY = "SELECT * FROM mcbans_actions WHERE violation_uuid=?";
+    private static final String INSERT_VIOLATION_QUERY = "INSERT INTO mcbans_actions (violation_uuid, player_uuid, executor_uuid, violation_reason, violation_type, violation_time, violation_duration) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    private static final String UPDATE_VIOLATION_QUERY = "UPDATE mcbans_actions SET deexecutor_uuid=?, violation_reason=?, violation_duration=?, violation_cancelled=? WHERE violation_uuid=?";
 
     ResultSetTransformer<Violation> VIOLATION_TRANSFORMER = rs -> Violation.builder()
-                                                                           .violationId(UUID.fromString(rs.getString("violation_uuid")))
-                                                                           .type(ViolationType
-                                                                                   .valueOf(rs.getString("violation_type").toUpperCase()))
+                                                                           .id(UUID.fromString(rs.getString("violation_uuid")))
+                                                                           .type(ViolationType.valueOf(rs.getString("violation_type").toUpperCase()))
                                                                            .player(UUID.fromString(rs.getString("player_uuid")))
                                                                            .executor(UUID.fromString(rs.getString("executor_uuid")))
-                                                                           .deExecutor(rs.getString("deexecutor_uuid") != null ? UUID
-                                                                                   .fromString(rs.getString("deexecutor_uuid")) : null)
+                                                                           .deExecutor(rs.getString("deexecutor_uuid") != null ? UUID.fromString(rs.getString("deexecutor_uuid")) : null)
                                                                            .reason(rs.getString("violation_reason"))
                                                                            .violationTime(rs.getLong("violation_time"))
                                                                            .duration(rs.getLong("violation_duration"))
@@ -55,7 +50,7 @@ public class ViolationRepositoryImpl implements ViolationRepository {
     public @NonNull Violation saveViolation(@NonNull Violation violation) {
         queryFactory.completableQuery()
                     .update(INSERT_VIOLATION_QUERY,
-                            violation.getViolationId().toString(),
+                            violation.getId().toString(),
                             violation.getPlayer().toString(),
                             violation.getExecutor() != null ? violation.getExecutor().toString() : UUIDUtil.consoleUUID().toString(),
                             violation.getReason(),
@@ -107,7 +102,7 @@ public class ViolationRepositoryImpl implements ViolationRepository {
                             violation.getReason(),
                             violation.getDuration(),
                             violation.isCancelled(),
-                            violation.getViolationId().toString());
+                            violation.getId().toString());
     }
 
 }

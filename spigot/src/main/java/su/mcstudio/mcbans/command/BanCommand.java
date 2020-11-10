@@ -27,11 +27,10 @@ import java.util.UUID;
  */
 @CommandAlias("mcbans")
 @Component(value = ACFModule.class)
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public final class BanCommand extends BaseCommand {
 
-    ViolationService violationService;
-    LocalizationManager localizationManager;
+    private final ViolationService violationService;
+    private final LocalizationManager localizationManager;
 
     @Inject
     public BanCommand(ViolationService violationService, @Private LocalizationManager localizationManager) {
@@ -40,7 +39,7 @@ public final class BanCommand extends BaseCommand {
     }
 
     @Subcommand("ban")
-    private void execute(CommandIssuer executor, OfflinePlayer target, String duration, @Optional @Default(value = " ") String reason) {
+    private void execute(CommandIssuer executor, OfflinePlayer target, String duration, @Optional @Default String reason) {
         if (violationService.activeBan(target.getUniqueId()).isPresent()) {
             executor.sendMessage(localizationManager.localized("player-already-banned"));
             return;

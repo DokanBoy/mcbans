@@ -1,10 +1,8 @@
 package su.mcstudio.mcbans.events;
 
 import dev.simplix.core.common.event.AbstractEvent;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
 
@@ -13,19 +11,18 @@ import java.util.UUID;
  * Date: 06.11.2020 23:17
  */
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BanEvent extends AbstractEvent {
 
     @Getter
-    UUID playerId;
+    private final UUID playerId;
 
     @Getter
-    UUID executorId;
+    private final UUID executorId;
 
     @Getter
-    long violationTime;
+    private final long violationTime;
 
     @Getter
-    long duration;
+    private final long duration;
 
 }
