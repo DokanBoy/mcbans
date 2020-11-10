@@ -3,7 +3,6 @@ package su.mcstudio.mcbans.service.impl;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import lombok.NonNull;
-import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.Nullable;
 import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.model.ViolationType;
@@ -19,7 +18,6 @@ import java.util.stream.Collectors;
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
  * Date: 03.11.2020 16:12
  */
-@Slf4j
 @Singleton
 public class ViolationServiceImpl implements ViolationService {
 
@@ -104,7 +102,6 @@ public class ViolationServiceImpl implements ViolationService {
                               .filter(vl -> vl.getType() == ViolationType.MUTE)
                               .filter(vl -> !vl.isCancelled())
                               .filter(vl -> (vl.getViolationTime() + vl.getDuration()) > System.currentTimeMillis())
-                              .peek(violation -> log.info(violation.toString()))
                               .findFirst();
     }
 
