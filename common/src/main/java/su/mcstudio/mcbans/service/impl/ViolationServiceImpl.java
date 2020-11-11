@@ -2,8 +2,12 @@ package su.mcstudio.mcbans.service.impl;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import dev.simplix.core.common.event.Events;
 import lombok.NonNull;
 import org.jetbrains.annotations.Nullable;
+import su.mcstudio.mcbans.events.BanEvent;
+import su.mcstudio.mcbans.events.KickEvent;
+import su.mcstudio.mcbans.events.MuteEvent;
 import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.model.ViolationType;
 import su.mcstudio.mcbans.repository.ViolationRepository;
@@ -38,6 +42,13 @@ public class ViolationServiceImpl implements ViolationService {
                                              .reason(reason)
                                              .violationTime(System.currentTimeMillis())
                                              .build();
+        Events.call(new KickEvent(
+                        violation.getPlayer(),
+                        violation.getExecutor(),
+                        violation.getReason(),
+                        violation.getViolationTime()
+                )
+        );
         return violationRepository.saveViolation(violation);
     }
 
@@ -52,6 +63,14 @@ public class ViolationServiceImpl implements ViolationService {
                                              .violationTime(System.currentTimeMillis())
                                              .duration(duration)
                                              .build();
+        Events.call(new BanEvent(
+                        violation.getPlayer(),
+                        violation.getExecutor(),
+                        violation.getReason(),
+                        violation.getViolationTime(),
+                        violation.getDuration()
+                )
+        );
         return violationRepository.saveViolation(violation);
     }
 
@@ -66,6 +85,14 @@ public class ViolationServiceImpl implements ViolationService {
                                              .violationTime(System.currentTimeMillis())
                                              .duration(duration)
                                              .build();
+        Events.call(new MuteEvent(
+                        violation.getPlayer(),
+                        violation.getExecutor(),
+                        violation.getReason(),
+                        violation.getViolationTime(),
+                        violation.getDuration()
+                )
+        );
         return violationRepository.saveViolation(violation);
     }
 

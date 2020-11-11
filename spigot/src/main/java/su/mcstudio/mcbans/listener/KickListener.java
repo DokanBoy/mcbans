@@ -6,26 +6,26 @@ import dev.simplix.core.common.aop.Private;
 import dev.simplix.core.common.i18n.LocalizationManager;
 import dev.simplix.core.common.listener.Listener;
 import dev.simplix.core.common.listener.Listeners;
-import dev.simplix.core.minecraft.api.events.ChatEvent;
 import lombok.NonNull;
-import su.mcstudio.mcbans.model.Violation;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import su.mcstudio.mcbans.events.KickEvent;
 import su.mcstudio.mcbans.module.CommonListenerModule;
 import su.mcstudio.mcbans.service.ViolationService;
-
-import java.util.Optional;
+import su.mcstudio.mcbans.util.LocalizationUtil;
 
 /**
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
- * Date: 05.11.2020 3:13
+ * Date: 11.11.2020 0:45
  */
 @Component(value = CommonListenerModule.class)
-public class ChatListener implements Listener<ChatEvent> {
+public class KickListener implements Listener<KickEvent> {
 
     private final ViolationService violationService;
     private final LocalizationManager localizationManager;
 
     @Inject
-    public ChatListener(ViolationService violationService, @Private LocalizationManager localizationManager) {
+    public KickListener(ViolationService violationService, @Private LocalizationManager localizationManager) {
         this.violationService = violationService;
         this.localizationManager = localizationManager;
 
@@ -33,18 +33,18 @@ public class ChatListener implements Listener<ChatEvent> {
     }
 
     @Override
-    public Class<ChatEvent> type() {
-        return ChatEvent.class;
+    public Class<KickEvent> type() {
+        return KickEvent.class;
     }
 
     @Override
-    public void handleEvent(@NonNull ChatEvent event) {
-        Optional<Violation> activeMuteMute = violationService.activeMute(event.targetUUID());
-
-        if (activeMuteMute.isPresent() && !event.message().contains("/")) {
-            event.cancelReason();
-            event.canceled(true);
-        }
+    public void handleEvent(@NonNull KickEvent event) {
+        Bukkit.getPlayer(event.getPlayerId())
+              .kickPlayer(ChatColor.translateAlternateColorCodes('&', LocalizationUtil.getFormattedKickMessage(
+                      localizationManager.localized("kick-message"),
+                      event.getReason(),
+                      event.getExecutorId())
+              ));
     }
 
 }

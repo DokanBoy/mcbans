@@ -14,10 +14,9 @@ import java.util.Locale;
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
  * Date: 06.11.2020 16:49
  */
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ACFModule extends AbstractSimplixModule {
 
-    PaperCommandManager commandManager;
+    private final PaperCommandManager commandManager;
 
     public ACFModule(Plugin plugin) {
         this.commandManager = new PaperCommandManager(plugin);

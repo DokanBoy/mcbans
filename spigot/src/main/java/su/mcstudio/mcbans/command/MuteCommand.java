@@ -25,21 +25,21 @@ import java.util.UUID;
  */
 @CommandAlias("mcbans")
 @Component(value = ACFModule.class)
-public final class BanCommand extends BaseCommand {
+public final class MuteCommand extends BaseCommand {
 
     private final ViolationService violationService;
     private final LocalizationManager localizationManager;
 
     @Inject
-    public BanCommand(ViolationService violationService, @Private LocalizationManager localizationManager) {
+    public MuteCommand(ViolationService violationService, @Private LocalizationManager localizationManager) {
         this.violationService = violationService;
         this.localizationManager = localizationManager;
     }
 
-    @Subcommand("ban")
+    @Subcommand("mute")
     private void execute(CommandIssuer executor, OfflinePlayer target, String duration, @Optional @Default String reason) {
-        if (violationService.activeBan(target.getUniqueId()).isPresent()) {
-            executor.sendMessage(localizationManager.localized("player-already-banned"));
+        if (violationService.activeMute(target.getUniqueId()).isPresent()) {
+            executor.sendMessage(localizationManager.localized("player-already-muted"));
             return;
         }
 
@@ -51,9 +51,9 @@ public final class BanCommand extends BaseCommand {
 
         final UUID executorId = executor.isPlayer() ? executor.getUniqueId() : UUIDUtil.consoleUUID();
         long parsedDuration = optDuration.get().toMillis();
-        
+
         violationService.banPlayer(target.getUniqueId(), executorId, reason, parsedDuration);
-        localizationManager.localized("successful-banned");
+        localizationManager.localized("successful-muted");
     }
 
 }

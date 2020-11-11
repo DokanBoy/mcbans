@@ -23,7 +23,7 @@ import java.util.UUID;
  */
 @CommandAlias("mcbans")
 @Component(value = ACFModule.class)
-public class KickCommand extends BaseCommand {
+public final class KickCommand extends BaseCommand {
 
     private final ViolationService violationService;
     private final LocalizationManager localizationManager;
@@ -35,7 +35,7 @@ public class KickCommand extends BaseCommand {
     }
 
     @Subcommand("kick")
-    private void execute(CommandIssuer executor, OfflinePlayer target, String duration, @Optional @Default String reason) {
+    private void execute(CommandIssuer executor, OfflinePlayer target, @Optional @Default String reason) {
         final UUID executorId = executor.isPlayer() ? executor.getUniqueId() : UUIDUtil.consoleUUID();
         violationService.kickPlayer(target.getUniqueId(), executorId, reason);
 

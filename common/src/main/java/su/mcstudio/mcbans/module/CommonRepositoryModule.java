@@ -3,13 +3,12 @@ package su.mcstudio.mcbans.module;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.inject.Binder;
-import de.leonhard.storage.Yaml;
 import dev.simplix.core.common.aop.AbstractSimplixModule;
 import dev.simplix.core.database.sql.SqlDatabaseConnection;
-import lombok.AllArgsConstructor;
+import dev.simplix.core.database.sql.util.QueryFactory;
+import ninja.leaping.configurate.ConfigurationNode;
 import su.mcstudio.mcbans.repository.ViolationRepository;
 import su.mcstudio.mcbans.repository.impl.ViolationRepositoryImpl;
-import su.mcstudio.mcbans.util.query.QueryFactory;
 
 import java.util.concurrent.Executors;
 
@@ -17,10 +16,14 @@ import java.util.concurrent.Executors;
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
  * Date: 03.11.2020 17:52
  */
-@AllArgsConstructor
+
 public class CommonRepositoryModule extends AbstractSimplixModule {
 
-    private final Yaml yaml;
+    private final ConfigurationNode dbCredentials;
+
+    public CommonRepositoryModule(ConfigurationNode dbCredentials) {
+        this.dbCredentials = dbCredentials;
+    }
 
     private static ListeningExecutorService getListeningExecutorService() {
         return MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors()));
@@ -31,11 +34,11 @@ public class CommonRepositoryModule extends AbstractSimplixModule {
         super.configure(binder);
 
         final SqlDatabaseConnection databaseConnection = SqlDatabaseConnection.hikari(
-                yaml.getString("data.address"),
-                yaml.getString("data.username"),
-                yaml.getString("data.password"),
-                yaml.getString("data.port"),
-                yaml.getString("data.database")
+                dbCredentials.getNode("address").getString("127.0.0.1"),
+                dbCredentials.getNode("username").getString("root"),
+                dbCredentials.getNode("password").getString(""),
+                dbCredentials.getNode("port").getString("3306"),
+                dbCredentials.getNode("database").getString("")
         );
         binder.bind(SqlDatabaseConnection.class).toInstance(databaseConnection);
 

@@ -39,4 +39,5 @@ public class CacheServiceImpl implements CacheService {
     public @NonNull Optional<List<Violation>> getCachedUser(@NonNull UUID user) {
         return Optional.ofNullable(cache.getIfPresent(user));
     }
+
 }

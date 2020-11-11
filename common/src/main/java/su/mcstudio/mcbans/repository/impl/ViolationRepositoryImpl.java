@@ -4,12 +4,12 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import dev.simplix.core.database.sql.function.ResultSetTransformer;
+import dev.simplix.core.database.sql.util.QueryFactory;
 import lombok.NonNull;
 import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.model.ViolationType;
 import su.mcstudio.mcbans.repository.ViolationRepository;
 import su.mcstudio.mcbans.util.UUIDUtil;
-import su.mcstudio.mcbans.util.query.QueryFactory;
 
 import java.util.List;
 import java.util.UUID;

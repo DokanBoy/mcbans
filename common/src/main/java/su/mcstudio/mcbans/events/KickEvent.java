@@ -20,6 +20,9 @@ public class KickEvent extends AbstractEvent {
     private final UUID executorId;
 
     @Getter
+    private final String reason;
+
+    @Getter
     private final long violationTime;
 
 }

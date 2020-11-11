@@ -26,7 +26,7 @@ public class LocalizationUtil {
                        .replace("{date}", TimeFormatUtil.calculateDateFormatted(micros));
     }
 
-    public String getFormattedMuteMessage(String original, String reason, UUID executor) {
+    public String getFormattedKickMessage(String original, String reason, UUID executor) {
         return original.replace("{reason}", reason)
                        .replace("{executor}", executor.toString());
     }
