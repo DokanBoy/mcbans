@@ -14,16 +14,16 @@ import java.util.UUID;
 @UtilityClass
 public class LocalizationUtil {
 
-    public String getFormattedBanMessage(String original, String reason, UUID executor, long micros) {
+    public String getFormattedBanMessage(String original, String reason, UUID executor, long millis) {
         return original.replace("{reason}", reason)
                        .replace("{executor}", executor.toString())
-                       .replace("{date}", TimeFormatUtil.calculateDateFormatted(micros));
+                       .replace("{date}", TimeFormatUtil.calculateDateFormatted(millis));
     }
 
-    public String getFormattedMuteMessage(String original, String reason, UUID executor, long micros) {
+    public String getFormattedMuteMessage(String original, String reason, UUID executor, long millis) {
         return original.replace("{reason}", reason)
                        .replace("{executor}", executor.toString())
-                       .replace("{date}", TimeFormatUtil.calculateDateFormatted(micros));
+                       .replace("{date}", TimeFormatUtil.calculateDateFormatted(millis));
     }
 
     public String getFormattedKickMessage(String original, String reason, UUID executor) {

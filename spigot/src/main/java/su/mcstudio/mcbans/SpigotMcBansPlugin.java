@@ -1,6 +1,10 @@
 package su.mcstudio.mcbans;
 
+import com.google.inject.Binder;
+import com.google.inject.Module;
 import de.leonhard.storage.util.FileUtils;
+import dev.simplix.cirrus.api.business.PlayerWrapper;
+import dev.simplix.core.common.converter.Converters;
 import dev.simplix.core.common.inject.SimplixInstaller;
 import dev.simplix.core.minecraft.spigot.dynamiclisteners.DynamicListenersSimplixModule;
 import dev.simplix.core.minecraft.spigot.quickstart.SimplixQuickStart;
@@ -8,6 +12,7 @@ import dev.simplix.minecraft.spigot.dynamiccommands.DynamicCommandsSimplixModule
 import lombok.SneakyThrows;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import su.mcstudio.mcbans.module.*;
 
@@ -31,7 +36,7 @@ public final class SpigotMcBansPlugin extends JavaPlugin {
             return;
         }
 
-        FileUtils.extractResource("", "", false);
+        //FileUtils.extractResource("/", "config.conf", false);
         configuration = configLoader.load();
         SimplixInstaller.instance()
                         .register(McBansApplication.class,
@@ -42,7 +47,8 @@ public final class SpigotMcBansPlugin extends JavaPlugin {
                                 new CommonRepositoryModule(configuration.getNode("data")),
                                 new DynamicListenersSimplixModule(this),
                                 new ACFModule(this),
-                                new DynamicCommandsSimplixModule());
+                                new DynamicCommandsSimplixModule(),
+                                binder -> binder.bind(Plugin.class).toInstance(this));
     }
 
     @Override

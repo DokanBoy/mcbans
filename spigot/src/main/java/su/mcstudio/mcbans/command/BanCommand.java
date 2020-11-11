@@ -38,7 +38,7 @@ public final class BanCommand extends BaseCommand {
 
     @Subcommand("ban")
     private void execute(CommandIssuer executor, OfflinePlayer target, String duration, @Optional @Default String reason) {
-        if (violationService.activeBan(target.getUniqueId()).isPresent()) {
+        if (!violationService.activeBans(target.getUniqueId()).isEmpty()) {
             executor.sendMessage(localizationManager.localized("player-already-banned"));
             return;
         }
@@ -51,7 +51,7 @@ public final class BanCommand extends BaseCommand {
 
         final UUID executorId = executor.isPlayer() ? executor.getUniqueId() : UUIDUtil.consoleUUID();
         long parsedDuration = optDuration.get().toMillis();
-        
+
         violationService.banPlayer(target.getUniqueId(), executorId, reason, parsedDuration);
         localizationManager.localized("successful-banned");
     }

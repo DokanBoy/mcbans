@@ -39,7 +39,8 @@ public class Violation {
      * Тот, кто отменил наказание
      */
     @Nullable
-    private final UUID deExecutor;
+    @Setter
+    private UUID deExecutor;
 
     /**
      * Причина наказания

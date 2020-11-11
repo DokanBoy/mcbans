@@ -3,9 +3,7 @@ package su.mcstudio.mcbans.module;
 import co.aikar.commands.BaseCommand;
 import co.aikar.commands.PaperCommandManager;
 import dev.simplix.core.common.aop.AbstractSimplixModule;
-import lombok.AccessLevel;
 import lombok.NonNull;
-import lombok.experimental.FieldDefaults;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Locale;

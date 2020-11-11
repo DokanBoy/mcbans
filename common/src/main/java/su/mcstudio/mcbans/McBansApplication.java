@@ -10,7 +10,7 @@ import dev.simplix.core.common.aop.SimplixApplication;
 @SimplixApplication(name = "MCBans",
                     version = "1.0.0",
                     authors = "DokanBoy",
-                    dependencies = "SimplixCore",
+                    dependencies = {"SimplixCore"},
                     workingDirectory = "plugins/MCBans")
 @ScanComponents("su.mcstudio.mcbans")
 public final class McBansApplication {

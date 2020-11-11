@@ -4,9 +4,6 @@ import com.google.inject.Binder;
 import dev.simplix.core.common.aop.AbstractSimplixModule;
 import lombok.SneakyThrows;
 import ninja.leaping.configurate.ConfigurationNode;
-import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
-
-import java.io.File;
 
 /**
  * Created by: Alexey Zakharov <alexey@zakharov.pw>

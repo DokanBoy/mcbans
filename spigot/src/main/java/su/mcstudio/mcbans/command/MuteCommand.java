@@ -38,7 +38,7 @@ public final class MuteCommand extends BaseCommand {
 
     @Subcommand("mute")
     private void execute(CommandIssuer executor, OfflinePlayer target, String duration, @Optional @Default String reason) {
-        if (violationService.activeMute(target.getUniqueId()).isPresent()) {
+        if (!violationService.activeMutes(target.getUniqueId()).isEmpty()) {
             executor.sendMessage(localizationManager.localized("player-already-muted"));
             return;
         }
@@ -52,7 +52,7 @@ public final class MuteCommand extends BaseCommand {
         final UUID executorId = executor.isPlayer() ? executor.getUniqueId() : UUIDUtil.consoleUUID();
         long parsedDuration = optDuration.get().toMillis();
 
-        violationService.banPlayer(target.getUniqueId(), executorId, reason, parsedDuration);
+        violationService.mutePlayer(target.getUniqueId(), executorId, reason, parsedDuration);
         localizationManager.localized("successful-muted");
     }
 

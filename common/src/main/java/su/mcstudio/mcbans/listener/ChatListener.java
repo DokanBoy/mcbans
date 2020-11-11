@@ -11,8 +11,9 @@ import lombok.NonNull;
 import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.module.CommonListenerModule;
 import su.mcstudio.mcbans.service.ViolationService;
+import su.mcstudio.mcbans.util.LocalizationUtil;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
@@ -39,10 +40,17 @@ public class ChatListener implements Listener<ChatEvent> {
 
     @Override
     public void handleEvent(@NonNull ChatEvent event) {
-        Optional<Violation> activeMuteMute = violationService.activeMute(event.targetUUID());
+        List<Violation> activeMutes = violationService.activeMutes(event.targetUUID());
 
-        if (activeMuteMute.isPresent() && !event.message().contains("/")) {
-            event.cancelReason();
+        if (!activeMutes.isEmpty() && !event.message().contains("/")) {
+            Violation activeMute = activeMutes.get(0);
+            String formattedBanMessage = LocalizationUtil.getFormattedBanMessage(
+                    localizationManager.localized("mute-message"),
+                    activeMute.getReason(),
+                    activeMute.getExecutor(),
+                    activeMute.getViolationTime() + activeMute.getDuration());
+
+            event.cancelReason(formattedBanMessage);
             event.canceled(true);
         }
     }

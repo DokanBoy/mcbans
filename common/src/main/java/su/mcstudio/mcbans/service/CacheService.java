@@ -14,4 +14,6 @@ public interface CacheService {
 
     @NonNull List<Violation> get(@NonNull UUID playerId);
 
+    void refresh(@NonNull UUID playerId);
+
 }

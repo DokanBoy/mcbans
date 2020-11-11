@@ -24,8 +24,8 @@ public interface ViolationService {
 
     @NonNull List<Violation> unmutePlayer(@NonNull UUID playerId, @Nullable UUID executorId, @NonNull String reason);
 
-    @NonNull Optional<Violation> activeMute(@NonNull UUID playerId);
+    @NonNull List<Violation> activeMutes(@NonNull UUID playerId);
 
-    @NonNull Optional<Violation> activeBan(@NonNull UUID playerId);
+    @NonNull List<Violation> activeBans(@NonNull UUID playerId);
 
 }
