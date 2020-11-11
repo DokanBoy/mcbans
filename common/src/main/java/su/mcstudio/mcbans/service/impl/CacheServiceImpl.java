@@ -7,6 +7,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import lombok.NonNull;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.repository.ViolationRepository;
 import su.mcstudio.mcbans.service.CacheService;
@@ -26,9 +27,8 @@ public class CacheServiceImpl implements CacheService {
     private final ViolationRepository violationRepository;
     private final Function<UUID, List<Violation>> kvResolver;
     private final LoadingCache<UUID, List<Violation>> cache = CacheBuilder.newBuilder()
-                                                                          .expireAfterAccess(5L, TimeUnit.MINUTES)
-                                                                          .expireAfterWrite(15L, TimeUnit.MINUTES)
-                                                                          .maximumSize(100)
+                                                                          .expireAfterAccess(15L, TimeUnit.MINUTES)
+                                                                          .expireAfterWrite(2L, TimeUnit.HOURS)
                                                                           .build(new CacheLoader<UUID, List<Violation>>() {
                                                                               @Override
                                                                               public List<Violation> load(UUID key) {
@@ -51,6 +51,11 @@ public class CacheServiceImpl implements CacheService {
     @Override
     public void refresh(@NonNull UUID playerId) {
         cache.refresh(playerId);
+    }
+
+    @Override
+    public void remove(@NonNull UUID playerId) {
+        cache.asMap().remove(playerId);
     }
 
 }

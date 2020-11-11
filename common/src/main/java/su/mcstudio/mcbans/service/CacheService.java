@@ -16,4 +16,6 @@ public interface CacheService {
 
     void refresh(@NonNull UUID playerId);
 
+    void remove(@NonNull UUID playerId);
+
 }

@@ -11,7 +11,6 @@ import ninja.leaping.configurate.ConfigurationNode;
 import su.mcstudio.mcbans.repository.ViolationRepository;
 import su.mcstudio.mcbans.repository.impl.ViolationRepositoryImpl;
 
-import java.util.Calendar;
 import java.util.concurrent.Executors;
 
 /**
@@ -20,12 +19,6 @@ import java.util.concurrent.Executors;
  */
 @Slf4j
 public class CommonRepositoryModule extends AbstractSimplixModule {
-
-    public static final String OPTIONS =
-            ("?jdbcCompliantTruncation=false&useUnicode=true&characterEncoding=utf8"
-                    + "&serverTimezone={timezone}&zeroDateTimeBehavior=convertToNull&autoReconnect=true"
-                    + "&zeroDateTimeBehavior=convertToNull&max_allowed_packet=512M")
-                    .replace("{timezone}", Calendar.getInstance().getTimeZone().getID());
 
     private final ConfigurationNode dbCredentials;
 

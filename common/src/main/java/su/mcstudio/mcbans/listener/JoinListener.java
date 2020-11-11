@@ -11,11 +11,10 @@ import lombok.NonNull;
 import lombok.SneakyThrows;
 import su.mcstudio.mcbans.model.Violation;
 import su.mcstudio.mcbans.module.CommonListenerModule;
+import su.mcstudio.mcbans.service.CacheService;
 import su.mcstudio.mcbans.service.ViolationService;
 import su.mcstudio.mcbans.util.LocalizationUtil;
-import su.mcstudio.mcbans.util.UUIDUtil;
 
-import java.time.Duration;
 import java.util.List;
 
 /**
@@ -26,11 +25,13 @@ import java.util.List;
 public class JoinListener implements Listener<JoinEvent> {
 
     private final ViolationService violationService;
+    private final CacheService cacheService;
     private final LocalizationManager localizationManager;
 
     @Inject
-    public JoinListener(ViolationService violationService, @Private LocalizationManager localizationManager) {
+    public JoinListener(ViolationService violationService, CacheService cacheService, @Private LocalizationManager localizationManager) {
         this.violationService = violationService;
+        this.cacheService = cacheService;
         this.localizationManager = localizationManager;
 
         Listeners.register(this);
@@ -44,9 +45,8 @@ public class JoinListener implements Listener<JoinEvent> {
     @Override
     @SneakyThrows
     public void handleEvent(@NonNull JoinEvent event) {
-        violationService.mutePlayer(event.targetUUID(), UUIDUtil.consoleUUID(), "&cSOSI", Duration.ofMinutes(5).toMillis());
-
         List<Violation> activeBans = violationService.activeBans(event.targetUUID());
+
         if (!activeBans.isEmpty()) {
             Violation activeBan = activeBans.get(0);
             String formattedBanMessage = LocalizationUtil.getFormattedBanMessage(
