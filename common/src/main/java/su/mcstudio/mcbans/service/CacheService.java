@@ -4,7 +4,6 @@ import lombok.NonNull;
 import su.mcstudio.mcbans.model.Violation;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -13,10 +12,6 @@ import java.util.UUID;
  */
 public interface CacheService {
 
-    boolean isCached(@NonNull UUID user);
-
-    void addToCache(@NonNull UUID user, @NonNull List<Violation> violations);
-
-    @NonNull Optional<List<Violation>> getCachedUser(@NonNull UUID user);
+    @NonNull List<Violation> get(@NonNull UUID playerId);
 
 }
