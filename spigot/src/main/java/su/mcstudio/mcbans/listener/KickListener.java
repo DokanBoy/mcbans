@@ -8,7 +8,6 @@ import dev.simplix.core.common.listener.Listener;
 import dev.simplix.core.common.listener.Listeners;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import su.mcstudio.mcbans.events.KickEvent;
 import su.mcstudio.mcbans.module.CommonListenerModule;
 import su.mcstudio.mcbans.service.ViolationService;
@@ -40,11 +39,10 @@ public class KickListener implements Listener<KickEvent> {
     @Override
     public void handleEvent(@NonNull KickEvent event) {
         Bukkit.getPlayer(event.getPlayerId())
-              .kickPlayer(ChatColor.translateAlternateColorCodes('&', LocalizationUtil.getFormattedKickMessage(
-                      localizationManager.localized("kick-message"),
+              .kickPlayer(LocalizationUtil.getFormattedKickMessage(
                       event.getReason(),
                       event.getExecutorId())
-              ));
+              );
     }
 
 }

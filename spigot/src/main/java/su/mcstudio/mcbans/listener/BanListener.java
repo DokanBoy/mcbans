@@ -8,7 +8,6 @@ import dev.simplix.core.common.listener.Listener;
 import dev.simplix.core.common.listener.Listeners;
 import lombok.NonNull;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import su.mcstudio.mcbans.events.BanEvent;
 import su.mcstudio.mcbans.module.CommonListenerModule;
 import su.mcstudio.mcbans.service.ViolationService;
@@ -40,12 +39,11 @@ public class BanListener implements Listener<BanEvent> {
     @Override
     public void handleEvent(@NonNull BanEvent event) {
         Bukkit.getPlayer(event.getPlayerId())
-              .kickPlayer(ChatColor.translateAlternateColorCodes('&', LocalizationUtil.getFormattedBanMessage(
-                      localizationManager.localized("ban-message"),
+              .kickPlayer(LocalizationUtil.getFormattedBanMessage(
                       event.getReason(),
                       event.getExecutorId(),
                       event.getDuration())
-              ));
+              );
     }
 
 }

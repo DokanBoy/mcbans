@@ -50,7 +50,6 @@ public class JoinListener implements Listener<JoinEvent> {
         if (!activeBans.isEmpty()) {
             Violation activeBan = activeBans.get(0);
             String formattedBanMessage = LocalizationUtil.getFormattedBanMessage(
-                    localizationManager.localized("ban-message"),
                     activeBan.getReason(),
                     activeBan.getExecutor(),
                     activeBan.getViolationTime() + activeBan.getDuration());

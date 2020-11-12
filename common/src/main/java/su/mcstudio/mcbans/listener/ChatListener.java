@@ -44,8 +44,7 @@ public class ChatListener implements Listener<ChatEvent> {
 
         if (!activeMutes.isEmpty() && !event.message().contains("/")) {
             Violation activeMute = activeMutes.get(0);
-            String formattedBanMessage = LocalizationUtil.getFormattedBanMessage(
-                    localizationManager.localized("mute-message"),
+            String formattedBanMessage = LocalizationUtil.getFormattedMuteMessage(
                     activeMute.getReason(),
                     activeMute.getExecutor(),
                     activeMute.getViolationTime() + activeMute.getDuration());

@@ -3,13 +3,15 @@ package su.mcstudio.mcbans;
 import dev.simplix.core.common.inject.SimplixInstaller;
 import dev.simplix.core.minecraft.spigot.dynamiclisteners.DynamicListenersSimplixModule;
 import dev.simplix.core.minecraft.spigot.quickstart.SimplixQuickStart;
-import dev.simplix.minecraft.spigot.dynamiccommands.DynamicCommandsSimplixModule;
 import lombok.SneakyThrows;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import su.mcstudio.mcbans.module.*;
+import su.mcstudio.mcbans.module.ACFModule;
+import su.mcstudio.mcbans.module.CommonLocalizationModule;
+import su.mcstudio.mcbans.module.CommonRepositoryModule;
+import su.mcstudio.mcbans.module.ConfigurateModule;
 
 import java.io.File;
 
@@ -35,14 +37,11 @@ public final class SpigotMcBansPlugin extends JavaPlugin {
         configuration = configLoader.load();
         SimplixInstaller.instance()
                         .register(McBansApplication.class,
-                                new CommonListenerModule(),
                                 new CommonLocalizationModule(getDataFolder()),
-                                new CommonServiceModule(),
                                 new ConfigurateModule(configuration),
                                 new CommonRepositoryModule(configuration.getNode("data")),
                                 new DynamicListenersSimplixModule(this),
                                 new ACFModule(this),
-                                new DynamicCommandsSimplixModule(),
                                 binder -> binder.bind(Plugin.class).toInstance(this));
     }
 

@@ -6,7 +6,6 @@ import com.google.inject.Binder;
 import dev.simplix.core.common.aop.AbstractSimplixModule;
 import dev.simplix.core.database.sql.SqlDatabaseConnection;
 import dev.simplix.core.database.sql.util.QueryFactory;
-import lombok.extern.slf4j.Slf4j;
 import ninja.leaping.configurate.ConfigurationNode;
 import su.mcstudio.mcbans.repository.ViolationRepository;
 import su.mcstudio.mcbans.repository.impl.ViolationRepositoryImpl;
@@ -17,7 +16,6 @@ import java.util.concurrent.Executors;
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
  * Date: 03.11.2020 17:52
  */
-@Slf4j
 public class CommonRepositoryModule extends AbstractSimplixModule {
 
     private final ConfigurationNode dbCredentials;
