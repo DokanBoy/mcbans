@@ -12,7 +12,7 @@ import java.util.UUID;
  * Created by: Alexey Zakharov <alexey@zakharov.pw>
  * Date: 01.11.2020 18:21
  */
-public interface ViolationService {
+public interface  ViolationService {
 
     @NonNull Violation kickPlayer(@NonNull UUID playerId, @Nullable UUID executorId, @NonNull String reason);
 

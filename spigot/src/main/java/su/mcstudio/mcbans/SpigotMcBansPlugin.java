@@ -8,10 +8,7 @@ import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
-import su.mcstudio.mcbans.module.ACFModule;
-import su.mcstudio.mcbans.module.CommonLocalizationModule;
-import su.mcstudio.mcbans.module.CommonRepositoryModule;
-import su.mcstudio.mcbans.module.ConfigurateModule;
+import su.mcstudio.mcbans.module.*;
 
 import java.io.File;
 
@@ -37,6 +34,8 @@ public final class SpigotMcBansPlugin extends JavaPlugin {
         configuration = configLoader.load();
         SimplixInstaller.instance()
                         .register(McBansApplication.class,
+                                new CommonServiceModule(),
+                                new CommonListenerModule(),
                                 new CommonLocalizationModule(getDataFolder()),
                                 new ConfigurateModule(configuration),
                                 new CommonRepositoryModule(configuration.getNode("data")),
