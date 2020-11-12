@@ -32,7 +32,7 @@ public class QuitListener implements Listener<QuitEvent> {
 
     @Override
     public void handleEvent(@NonNull QuitEvent event) {
-        //cacheService.remove(event.target());
+        cacheService.remove(event.target());
     }
 
 }
