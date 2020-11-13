@@ -6,7 +6,6 @@ import dev.simplix.core.minecraft.spigot.quickstart.SimplixQuickStart;
 import lombok.SneakyThrows;
 import ninja.leaping.configurate.ConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import su.mcstudio.mcbans.module.*;
 
@@ -40,8 +39,7 @@ public final class SpigotMcBansPlugin extends JavaPlugin {
                                 new ConfigurateModule(configuration),
                                 new CommonRepositoryModule(configuration.getNode("data")),
                                 new DynamicListenersSimplixModule(this),
-                                new ACFModule(this),
-                                binder -> binder.bind(Plugin.class).toInstance(this));
+                                new ACFModule(this));
     }
 
     @Override
